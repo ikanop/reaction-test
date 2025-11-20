@@ -4,9 +4,10 @@ import {blue, red, green} from '@mui/material/colors'
 
 const ReactionTest = () => {
 
-const [status, setStatus] = useState('idle')
-const [reactionTime, setReactionTime] = useState(0)
-const startTimeRef = useRef(null)
+const [status, setStatus] = useState('idle');
+const [reactionTime, setReactionTime] = useState(0);
+const [results, setResults] = useState([]);
+const startTimeRef = useRef(null);
 
 const colors = {
     idle: blue[500],
@@ -50,7 +51,14 @@ const handleClick = useCallback(() => {
         setReactionTime(null)
     } else if (status === 'ready') {
         const endTime = Date.now();
-        setReactionTime(endTime - startTimeRef.current);
+        const reactionTime = endTime - startTimeRef.current;
+
+        setReactionTime(reactionTime);
+
+        setResults(prev => {
+            const updated = [reactionTime, ...prev];
+            return updated.slice(0, 5);
+        })
         setStatus('result')
     } else if (status === 'result') {
         setStatus('waiting');
@@ -84,6 +92,9 @@ const handleClick = useCallback(() => {
                 background: backgroundColor
         }}
         >
+            <Typography variant="h2">
+                {results.join(", ")}
+            </Typography>
             <Typography variant="h1" fontWeight="500">
                 {message}
             </Typography>
