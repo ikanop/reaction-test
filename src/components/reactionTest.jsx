@@ -1,4 +1,4 @@
-import {useState, useEffect, useRef, useCallback} from 'react';
+import {useState, useEffect, useRef, useCallback} from 'react'
 import {Box, Typography} from '@mui/material'
 import {blue, red, green} from '@mui/material/colors'
 
@@ -22,8 +22,8 @@ const messages = {
     waiting: 'Wait for green...',
     ready: 'Click!',
     result: `${reactionTime} ms`,
-    early: 'Too early!'
-}
+    early: 'Too early!',
+};
 
 const backgroundColor = colors[status] || 'gray'
 const message = messages[status] || 'Unknown state'
@@ -89,12 +89,28 @@ const handleClick = useCallback(() => {
                 height: "94vh",
                 cursor: "pointer",
                 userSelect: "none",
-                background: backgroundColor
+                position: "relative",
+                background: backgroundColor,
         }}
         >
-            <Typography variant="h2">
-                {results.join(", ")}
-            </Typography>
+            <Box
+                        sx={{
+                            position: "absolute",
+                            top: "1rem",
+                            left: "1rem",
+                            display: "flex",
+                            flexDirection: "column",
+            }}
+            >
+                {results.map((result, index) => (
+                    <Typography
+                        variant="h2"
+                        key={index}
+                    >
+                        {index + 1}. {result} ms
+                    </Typography>
+                ))}
+            </Box>
             <Typography variant="h1" fontWeight="500">
                 {message}
             </Typography>
